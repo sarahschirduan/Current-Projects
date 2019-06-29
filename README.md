@@ -1,3 +1,5 @@
 # Current Projects
 
-Check out some of the recent things I've been working on
+Check out my website for greater detail about recent projects I'm working on:
+sarahschirduan.github.io/posts/
+
