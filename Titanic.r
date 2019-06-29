@@ -1,6 +1,7 @@
 #R Titanic Kaggle
 
-#Note: I used David Langer's code for the majority of this project
+#Note: I used David Langer's code for the majority of this project, 
+  # his tutorial is at https://www.youtube.com/watch?v=32o0DnuRjfg&t=2498s 
 
 #Read files
 train <- read.csv("train.csv", header = TRUE)
