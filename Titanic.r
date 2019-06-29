@@ -1,5 +1,7 @@
 #R Titanic Kaggle
 
+#Note: I used David Langer's code for the majority of this project
+
 #Read files
 train <- read.csv("train.csv", header = TRUE)
 test <- read.csv("test.csv", header = TRUE)
