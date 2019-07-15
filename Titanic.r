@@ -26,7 +26,7 @@ table(data.combined$Survived)
 #Look at male to female ratio for survived variable
 table(train$Sex, train$Survived)
 
-library(ggplot2)
+library("ggplot2")
 
 #Explore hypthosesis that rich people had a better change at survival
 train$Pclass <- as.factor(train$Pclass)
@@ -85,8 +85,8 @@ for (i in 1:nrow(data.combined)) {
 
 data.combined$title <- as.factor(titles)
 
-install.packages('ggplot2')
-install.packages('colorspace')
+#install.packages('ggplot2')
+#install.packages('colorspace')
 library(ggplot2)
 
 #This looks at Survival rate given gender and class
@@ -182,32 +182,27 @@ submit.df <- data.frame(PassengerId = rep(892:1309), Survived = rf.3.preds)
 
 write.csv(submit.df, file = "RF_SUB_20190622_1.csv", row.names = FALSE)
 
-library(ggplot2)
 library(caret)
+library(rpart)
+library(rpart.plot)
 library(doSNOW)
+library(lattice)
+library(foreach)
+library(iterators)
+library(snow)
+library(e1071)
 
-print(rf.label)
-
-set.seed(37596)
-cv.3.folds <- createMultiFolds(rf.label, k = 3, times = 10)
-
-#Set up trainControl
-ctrl.1 <- trainControl(method="repeatedcv", number = 3, repeats = 10, 
-                       index = cv.3.folds)
-
-#Set up a cluster, do multicore training
-cl <- makeCluster(2, type = "SOCK")
-registerDoSNOW(cl)
-
-install.packages('e1071', dependencies=TRUE)
-
-#Set seed for reproducibility & train
+#Let's look at decision trees
+First891 <- data.combined[1:891,]
+head(First891)
+TrainingSurvived = (data.combined[1:891, 2])
+  
+#Run Decision tree and view results
 set.seed(94622)
-rf.5.cv.3 <- train(x = rf.train.3, y = rf.label, method = "rf", 
-                   tuneLength = 3, ntree = 100, trControl = ctrl.1)
+rpart.cv.2 <- rpart(formula = TrainingSurvived ~ Pclass + title + SibSp + Parch, 
+                    data=First891, method = "class")
 
-#Shutdown cluster
-stopCluster(cl)
-
-#Check out results
-rf.5.cv.3
+#Plot
+library(rattle)
+rpart.plot(rpart.cv.2, type = 1, extra = 4, under = TRUE)
+rpart.plot(rpart.cv.2, type = 1, extra = 1, under = TRUE)
